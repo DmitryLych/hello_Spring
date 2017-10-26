@@ -34,12 +34,13 @@ public class DefaultTokenService implements TokenService {
 
         if (password.equals(user.getPassword())) {
 
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MINUTE, SecurityConstants.tokenExpirationTime);
             token.put("authorityType", String.valueOf(user.getAuthorities()));
             token.put("userId", user.getId());
             token.put("username", user.getUsername());
+            token.put("validateTime",calendar.getTime());
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.MINUTE, SecurityConstants.tokenExpirationTime);
 
             JwtBuilder jwtBuilder = Jwts.builder();
             jwtBuilder.setExpiration(calendar.getTime());

@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -27,13 +28,21 @@ public class DefaultTokenAuthenticationService implements TokenAuthenticationSer
         final Jws<Claims> tokenData = parseToken(token);
 
         if (tokenData != null) {
+            Long validateTime = (Long) tokenData.getBody().get("validateTime");
 
-            User user = getUserFromToken(tokenData);
-            if (user != null) {
+            Calendar calendar = Calendar.getInstance();
+            Long nowTime = calendar.getTime().getTime();
 
-                return new UserAuthentication(user);
+            if (nowTime < validateTime) {
+
+                User user = getUserFromToken(tokenData);
+                if (user != null) {
+
+                    return new UserAuthentication(user);
+                }
             }
         }
+
 
         return null;
     }

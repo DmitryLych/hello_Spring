@@ -21,7 +21,7 @@ public class Authority implements GrantedAuthority {
     @GenericGenerator(name = "increment1", strategy = "increment")
     private Integer id;
 
-    private String role;
+    private String authority;
 
     @Column(name = "user_id")
     private Integer userId;
@@ -29,6 +29,6 @@ public class Authority implements GrantedAuthority {
     @Override
     public String getAuthority() {
 
-        return this.role;
+        return this.authority;
     }
 }

@@ -23,7 +23,7 @@ public class UserDtoConverter implements Converter<UserDto, User> {
         user.setEnabled(true);
 
         final Authority authority = new Authority();
-        authority.setRole(String.valueOf(AuthorityType.USER));
+        authority.setAuthority(String.valueOf(AuthorityType.USER));
 
         user.setAuthorities(Collections.singletonList(authority));
 
